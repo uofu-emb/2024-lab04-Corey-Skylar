@@ -78,7 +78,7 @@ void test_full(void)
         BaseType_t res = xQueueReceive(response, &data, 1000);
         TEST_ASSERT_EQUAL_INT(pdTRUE, res);
         printf("Got result %d for %d, handled by thread %d\n",
-               data.input, data.output, data.handled_by);
+               data.output, data.input, data.handled_by);
         TEST_ASSERT_EQUAL_INT(data.input + 5, data.output);
     }
 
@@ -118,6 +118,7 @@ void test_all_alone(void)
 void runner_thread (__unused void *args)
 {
     for (;;) {
+        sleep_ms(5000);
         printf("Starting test run\n");
         setup_pool = 1;
         UNITY_BEGIN();
@@ -127,7 +128,6 @@ void runner_thread (__unused void *args)
         setup_pool = 0;
         RUN_TEST(test_all_alone);
         UNITY_END();
-        sleep_ms(10000);
     }
 }
 
